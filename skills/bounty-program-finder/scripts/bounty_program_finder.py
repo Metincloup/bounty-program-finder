@@ -1068,19 +1068,19 @@ def infer_filters_from_query(query: str) -> Tuple[JsonDict, str]:
     if platforms:
         filters["platforms"] = platforms
 
-    if any(term in lower for term in ("github", "repo", "repository", "açık kaynak", "acik kaynak", "open source", "oss", "source code", "kaynak kod")):
+    if any(term in lower for term in ("github", "repo", "repository", "open source", "oss", "source code")):
         filters["require_github"] = True
         filters.setdefault("scope_types", [])
         if "source_code" not in filters["scope_types"]:
             filters["scope_types"].append("source_code")
         keywords.extend(["github", "open source"])
 
-    if any(term in lower for term in ("bounty", "ödül", "odul", "ödeme", "odeme", "payout", "reward", "paid", "ücretli", "ucretli")):
+    if any(term in lower for term in ("bounty", "payout", "reward", "paid")):
         filters["bounty_only"] = True
 
-    if any(term in lower for term in ("private", "invite-only", "invite only", "özel", "ozel", "davet")):
+    if any(term in lower for term in ("private", "invite-only", "invite only")):
         filters["visibility"] = ["private", "invite-only"]
-    elif any(term in lower for term in ("public", "açık program", "acik program", "herkese açık", "herkese acik")):
+    elif "public" in lower:
         filters["visibility"] = ["public"]
 
     scope_types = set(filters.get("scope_types", []))
@@ -1100,7 +1100,7 @@ def infer_filters_from_query(query: str) -> Tuple[JsonDict, str]:
     if languages:
         filters["languages"] = languages
 
-    star_match = re.search(r"(\d+(?:[.,]\d+)?\s*[kKmM]?)\s*(?:\+?\s*)?(?:stars?|star|yıldız|yildiz)", lower)
+    star_match = re.search(r"(\d+(?:[.,]\d+)?\s*[kKmM]?)\s*(?:\+?\s*)?(?:stars?|star)", lower)
     if star_match:
         parsed = parse_human_number(star_match.group(1))
         if parsed is not None:
@@ -1113,28 +1113,28 @@ def infer_filters_from_query(query: str) -> Tuple[JsonDict, str]:
             filters["min_forks"] = parsed
 
     payout_match = re.search(
-        r"(?:min(?:imum)?|at least|en az|minimum)?\s*(?:[$€£]\s*)?(\d+(?:[.,]\d+)?\s*[kKmM]?)(?:\s*(?:usd|eur|gbp|dolar|euro))?",
+        r"(?:min(?:imum)?|at least|minimum)?\s*(?:[$€£]\s*)?(\d+(?:[.,]\d+)?\s*[kKmM]?)(?:\s*(?:usd|eur|gbp|euro))?",
         lower,
     )
-    if payout_match and any(term in lower for term in ("payout", "reward", "bounty", "ödeme", "odeme", "ödül", "odul")):
+    if payout_match and any(term in lower for term in ("payout", "reward", "bounty")):
         parsed = parse_human_number(payout_match.group(1))
         if parsed is not None and parsed >= 50:
             filters["min_payout"] = parsed
 
-    if "usd" in lower or "$" in lower or "dolar" in lower:
+    if "usd" in lower or "$" in lower:
         filters["currency"] = "USD"
     elif "eur" in lower or "€" in lower or "euro" in lower:
         filters["currency"] = "EUR"
     elif "gbp" in lower or "£" in lower:
         filters["currency"] = "GBP"
 
-    if any(term in lower for term in ("popular", "popüler", "populer", "rağbet", "ragbet", "star", "yıldız", "yildiz")):
+    if any(term in lower for term in ("popular", "star")):
         keywords.append("popular")
-    if any(term in lower for term in ("fast response", "hızlı dönüş", "hizli donus", "triage", "response time", "çabuk", "cabuk")):
+    if any(term in lower for term in ("fast response", "triage", "response time")):
         keywords.append("fast response")
-    if any(term in lower for term in ("max payout", "highest payout", "en yüksek ödeme", "en yuksek odeme", "çok ödeyen", "cok odeyen")):
+    if any(term in lower for term in ("max payout", "highest payout")):
         keywords.append("max payout")
-    if any(term in lower for term in ("low noise", "az rekabet", "az rağbet", "az ragbet", "less competition")):
+    if any(term in lower for term in ("low noise", "less competition")):
         keywords.append("low noise")
 
     if keywords:
@@ -1144,15 +1144,15 @@ def infer_filters_from_query(query: str) -> Tuple[JsonDict, str]:
 
 
 def infer_profile_from_query(lower_query: str, filters: JsonDict) -> str:
-    if any(term in lower_query for term in ("max payout", "highest payout", "en yüksek ödeme", "en yuksek odeme", "çok ödeyen", "cok odeyen")):
+    if any(term in lower_query for term in ("max payout", "highest payout")):
         return "max_payout"
-    if any(term in lower_query for term in ("fast response", "hızlı dönüş", "hizli donus", "triage", "response time", "çabuk", "cabuk")):
+    if any(term in lower_query for term in ("fast response", "triage", "response time")):
         return "fast_response"
-    if any(term in lower_query for term in ("low noise", "az rekabet", "az rağbet", "az ragbet", "less competition")):
+    if any(term in lower_query for term in ("low noise", "less competition")):
         return "low_noise"
     if filters.get("require_github"):
         return "oss_audit"
-    if any(term in lower_query for term in ("popular", "popüler", "populer", "rağbet", "ragbet", "star", "yıldız", "yildiz")):
+    if any(term in lower_query for term in ("popular", "star")):
         return "popular"
     return "balanced"
 

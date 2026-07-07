@@ -56,9 +56,9 @@ class BountyProgramFinderTests(unittest.TestCase):
 
         self.assertEqual([item["program"]["platform"] for item in filtered], ["bugcrowd"])
 
-    def test_turkish_query_infers_oss_audit_filters(self):
+    def test_query_infers_oss_audit_filters(self):
         filters, profile = self.mod.infer_filters_from_query(
-            "GitHub uzerinde acik kaynak, populer ve 1k star uzeri bounty programlari listele"
+            "List popular bounty programs with open-source GitHub repositories above 1k stars"
         )
 
         self.assertEqual(profile, "oss_audit")

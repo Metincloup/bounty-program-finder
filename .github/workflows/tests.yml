@@ -23,7 +23,8 @@ jobs:
         run: |
           python -m py_compile \
             skills/bounty-program-finder/scripts/bounty_program_finder.py \
-            tools/package_claude_skill.py
+            tools/package_claude_skill.py \
+            tools/install_codex_skill.py
 
       - name: Run tests
         run: python -m unittest discover -s tests

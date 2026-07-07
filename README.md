@@ -29,10 +29,16 @@ No third-party Python dependencies are required.
 
 ```bash
 python3 skills/bounty-program-finder/scripts/bounty_program_finder.py \
-  --query "GitHub uzerinde acik kaynak populer bounty programlari listele" \
+  --query "List popular bounty programs with in-scope open-source GitHub repositories" \
   --profile auto \
   --limit 10 \
   --format both
+```
+
+Install or update the Codex skill locally:
+
+```bash
+python3 tools/install_codex_skill.py --force
 ```
 
 Repeatable JSON-filtered run:
@@ -101,13 +107,20 @@ Run syntax checks:
 ```bash
 python3 -m py_compile \
   skills/bounty-program-finder/scripts/bounty_program_finder.py \
-  tools/package_claude_skill.py
+  tools/package_claude_skill.py \
+  tools/install_codex_skill.py
 ```
 
 Package a Claude-compatible zip:
 
 ```bash
 python3 tools/package_claude_skill.py
+```
+
+Install or update the local Codex skill:
+
+```bash
+python3 tools/install_codex_skill.py --force
 ```
 
 ## Current Status
