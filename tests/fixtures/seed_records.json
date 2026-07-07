@@ -1,0 +1,109 @@
+{
+  "hackerone": {
+    "allows_bounty_splitting": true,
+    "average_time_to_bounty_awarded": 12.5,
+    "average_time_to_first_program_response": 1.0,
+    "average_time_to_report_resolved": 20.0,
+    "handle": "example-oss",
+    "managed_program": true,
+    "name": "Example OSS",
+    "offers_bounties": true,
+    "offers_swag": false,
+    "response_efficiency_percentage": 95,
+    "submission_state": "open",
+    "url": "https://hackerone.com/example-oss",
+    "website": "https://example.com",
+    "targets": {
+      "in_scope": [
+        {
+          "asset_identifier": "https://github.com/example/example-oss",
+          "asset_type": "SOURCE_CODE",
+          "eligible_for_bounty": true,
+          "eligible_for_submission": true,
+          "instruction": "Main open-source repository"
+        }
+      ],
+      "out_of_scope": [
+        {
+          "asset_identifier": "https://example.com/admin",
+          "asset_type": "URL",
+          "eligible_for_bounty": false,
+          "eligible_for_submission": false,
+          "instruction": "Do not test production admin"
+        }
+      ]
+    }
+  },
+  "bugcrowd": {
+    "name": "Example API",
+    "url": "https://bugcrowd.com/engagements/example-api",
+    "allows_disclosure": false,
+    "managed_by_bugcrowd": true,
+    "safe_harbor": "full",
+    "max_payout": 7500,
+    "targets": {
+      "in_scope": [
+        {
+          "type": "api",
+          "target": "https://api.example.com/",
+          "uri": "https://api.example.com/",
+          "name": "Example API"
+        }
+      ],
+      "out_of_scope": []
+    }
+  },
+  "intigriti": {
+    "id": "example-intigriti",
+    "name": "Example Intigriti",
+    "company_handle": "example",
+    "handle": "example",
+    "url": "https://www.intigriti.com/programs/example/example/detail",
+    "status": "open",
+    "confidentiality_level": "public",
+    "tacRequired": false,
+    "twoFactorRequired": true,
+    "min_bounty": {
+      "value": 50,
+      "currency": "EUR"
+    },
+    "max_bounty": {
+      "value": 2500,
+      "currency": "EUR"
+    },
+    "targets": {
+      "in_scope": [
+        {
+          "type": "url",
+          "endpoint": "app.example.dev",
+          "description": "Main application",
+          "impact": "Tier 2"
+        }
+      ],
+      "out_of_scope": []
+    }
+  },
+  "yeswehack": {
+    "id": "example-ywh",
+    "name": "Example YWH",
+    "public": false,
+    "disabled": false,
+    "managed": true,
+    "min_bounty": 100,
+    "max_bounty": 5000,
+    "targets": {
+      "in_scope": [
+        {
+          "target": "https://service.example.net",
+          "type": "web-application"
+        }
+      ],
+      "out_of_scope": [
+        {
+          "target": "Denial of service attacks",
+          "type": "other"
+        }
+      ]
+    }
+  }
+}

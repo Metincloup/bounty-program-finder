@@ -1,0 +1,32 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compile Python files
+        run: |
+          python -m py_compile \
+            skills/bounty-program-finder/scripts/bounty_program_finder.py \
+            tools/package_claude_skill.py
+
+      - name: Run tests
+        run: python -m unittest discover -s tests
+
+      - name: Package Claude skill
+        run: python tools/package_claude_skill.py

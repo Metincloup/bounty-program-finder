@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bounty Program Finder"
+  short_description: "Find and rank bounty programs"
+  default_prompt: "Use $bounty-program-finder to list in-scope bug bounty programs with open-source GitHub repositories for a safe audit handoff."
